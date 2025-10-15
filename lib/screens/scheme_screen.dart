@@ -1563,7 +1563,9 @@ class _SchemeScreenState extends State<SchemeScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _isTaskMode ? _currentTask?.title ?? 'Задание' : 'Тренажёр',
+          _isTaskMode
+              ? _currentTask?.title ?? 'Режим заданий'
+              : 'Режим тренажёра',
           style: const TextStyle(fontSize: 20),
         ),
         leading: IconButton(
@@ -1581,7 +1583,6 @@ class _SchemeScreenState extends State<SchemeScreen>
           },
         ),
         actions: [
-          // Компактный вариант с иконкой
           Tooltip(
             message: 'Дополнительные мероприятия по подготовке рабочего места',
             child: Row(
@@ -1597,7 +1598,6 @@ class _SchemeScreenState extends State<SchemeScreen>
             ),
           ),
           const SizedBox(width: 8),
-
           if (!_isTaskMode)
             IconButton(
               icon: const Icon(Icons.assignment),
@@ -1683,30 +1683,7 @@ class _SchemeScreenState extends State<SchemeScreen>
             )),
       ),
       bottomNavigationBar: _isTaskMode
-          ? Container(
-              padding: const EdgeInsets.all(12),
-              color: Colors.blue[50],
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  LinearProgressIndicator(
-                    value: _currentTask != null
-                        ? _completedSteps.length / _currentTask!.steps.length
-                        : 0,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Выполнено: ${_completedSteps.length}/${_currentTask?.steps.length ?? 0}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  if (_mistakes.isNotEmpty)
-                    Text(
-                      'Ошибок: ${_mistakes.length}',
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                ],
-              ),
-            )
+          ? _buildTaskProgressPanel()
           : _selectedApparatus != null
               ? Container(
                   padding: const EdgeInsets.all(8),
@@ -1729,6 +1706,257 @@ class _SchemeScreenState extends State<SchemeScreen>
                   ),
                 )
               : null,
+    );
+  }
+
+  Widget _buildTaskProgressPanel() {
+    return GestureDetector(
+      onTap: () {
+        _showTaskProgressDetails();
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        padding: const EdgeInsets.all(12),
+        color: Colors.blue[50],
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Прогресс-бар
+            LinearProgressIndicator(
+              value: _currentTask != null
+                  ? _completedSteps.length / _currentTask!.steps.length
+                  : 0,
+              backgroundColor: Colors.grey[300],
+              color: Colors.blue,
+              minHeight: 6,
+            ),
+            const SizedBox(height: 8),
+
+            // Статистика
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Шаг ${_completedSteps.length + 1} из ${_currentTask?.steps.length ?? 0}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                if (_mistakes.isNotEmpty)
+                  Text(
+                    'Ошибок: ${_mistakes.length}',
+                    style: const TextStyle(color: Colors.red),
+                  ),
+              ],
+            ),
+
+            // Подсказка
+            const SizedBox(height: 4),
+            Text(
+              'Нажмите для просмотра выполненных шагов',
+              style: TextStyle(
+                fontSize: 10,
+                color: Colors.blue[700],
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showTaskProgressDetails() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.6, // Уменьшили высоту
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: Column(
+          children: [
+            // Заголовок
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.blue[50],
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.assignment, color: Colors.blue),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _currentTask?.title ?? 'Задание',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
+                        ),
+                        if (_currentTask?.description != null)
+                          Text(
+                            _currentTask!.description!,
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ),
+
+            // Прогресс
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  LinearProgressIndicator(
+                    value: _currentTask != null
+                        ? _completedSteps.length / _currentTask!.steps.length
+                        : 0,
+                    backgroundColor: Colors.grey[300],
+                    color: Colors.blue,
+                    minHeight: 8,
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Прогресс: ${_completedSteps.length}/${_currentTask?.steps.length ?? 0}',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '${((_completedSteps.length / (_currentTask?.steps.length ?? 1)) * 100).toInt()}%',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  if (_mistakes.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      'Ошибок: ${_mistakes.length}',
+                      style: const TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+
+            // Список выполненных шагов
+            Expanded(
+              child: _completedSteps.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.list_alt, size: 48, color: Colors.grey),
+                          SizedBox(height: 8),
+                          Text(
+                            'Шаги ещё не выполнялись',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontStyle: FontStyle.italic),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Начните выполнение задания',
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView(
+                      padding: const EdgeInsets.all(16),
+                      children: [
+                        const Text(
+                          'Выполненные шаги:',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        ..._completedSteps.asMap().entries.map((entry) {
+                          final index = entry.key;
+                          final step = entry.value;
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 8),
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.green[50],
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: Colors.green),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.green,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Text(
+                                    '${index + 1}',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        step.description,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      if (step.safetyNote.isNotEmpty)
+                                        Text(
+                                          '⚠ ${step.safetyNote}',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.orange[700],
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                                const Icon(Icons.check_circle,
+                                    color: Colors.green, size: 20),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ],
+                    ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
