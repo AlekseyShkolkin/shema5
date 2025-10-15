@@ -1811,7 +1811,7 @@ class _SchemeScreenState extends State<SchemeScreen>
                         ),
                         if (_currentTask?.description != null)
                           Text(
-                            _currentTask!.description!,
+                            _currentTask!.description,
                             style: const TextStyle(fontSize: 12),
                           ),
                       ],
