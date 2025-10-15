@@ -1563,9 +1563,7 @@ class _SchemeScreenState extends State<SchemeScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _isTaskMode
-              ? _currentTask?.title ?? 'Режим заданий'
-              : 'Режим тренажёра',
+          _isTaskMode ? 'Режим заданий' : 'Режим тренажёра',
           style: const TextStyle(fontSize: 20),
         ),
         leading: IconButton(
@@ -1583,19 +1581,36 @@ class _SchemeScreenState extends State<SchemeScreen>
           },
         ),
         actions: [
-          Tooltip(
-            message: 'Дополнительные мероприятия по подготовке рабочего места',
-            child: Row(
-              children: [
-                const Icon(Icons.security, size: 16),
-                const SizedBox(width: 4),
-                Switch(
-                  value: _enableAdditionalSafetyMeasures,
-                  onChanged: _toggleAdditionalSafetyMeasures,
-                  activeColor: Colors.green,
+          Builder(
+            builder: (context) {
+              final isWideScreen = MediaQuery.of(context).size.width > 600;
+
+              return Tooltip(
+                message:
+                    'Дополнительные мероприятия по подготовке рабочего места',
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (isWideScreen) ...[
+                      const Text(
+                        'Дополнительные тех.мероприятия',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(width: 6),
+                    ],
+                    const Icon(Icons.security, size: 18, color: Colors.blue),
+                    const SizedBox(width: 4),
+                    Switch(
+                      value: _enableAdditionalSafetyMeasures,
+                      onChanged: _toggleAdditionalSafetyMeasures,
+                      activeColor: Colors.green,
+                      activeTrackColor: Colors.green[200],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
           const SizedBox(width: 8),
           if (!_isTaskMode)
@@ -1604,18 +1619,6 @@ class _SchemeScreenState extends State<SchemeScreen>
               onPressed: _showTaskSelection,
               tooltip: 'Выбрать задание',
             ),
-          IconButton(
-            icon: const Icon(Icons.zoom_in),
-            onPressed: () =>
-                setState(() => _scale = (_scale * 1.2).clamp(0.1, 5.0)),
-            tooltip: 'Увеличить',
-          ),
-          IconButton(
-            icon: const Icon(Icons.zoom_out),
-            onPressed: () =>
-                setState(() => _scale = (_scale / 1.2).clamp(0.1, 5.0)),
-            tooltip: 'Уменьшить',
-          ),
         ],
       ),
       body: InteractiveViewer(
