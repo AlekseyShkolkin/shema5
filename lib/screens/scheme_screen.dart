@@ -17,6 +17,8 @@ class _SchemeScreenState extends State<SchemeScreen>
     with AutomaticKeepAliveClientMixin {
   Map<String, String> _initialApparatusStates = {};
   Map<String, String> _initialApparatusStatuses = {};
+  Map<String, List<String>> _initialSafetyMeasures = {};
+
   double _scale = 1.0;
   Apparatus? _selectedApparatus;
   final TransformationController _transformationController =
@@ -891,11 +893,24 @@ class _SchemeScreenState extends State<SchemeScreen>
       apparatus.changeState(_initialApparatusStates[apparatus.id] ?? 'on');
       apparatus.changeStatus(_initialApparatusStatuses[apparatus.id] ?? 'on');
       apparatus.clearSafetyMeasures();
+      List<String> initialMeasures = _initialSafetyMeasures[apparatus.id] ?? [];
+      for (String measure in initialMeasures) {
+        apparatus.addSafetyMeasure(measure);
+      }
     }
 
     // Сброс зума
     _transformationController.value = Matrix4.identity();
     _scale = 1.0;
+  }
+
+  void _exitTaskMode() {
+    setState(() {
+      _isTaskMode = false;
+      _currentTask = null;
+      _completedSteps = [];
+      _resetApparatusToInitialState(); // Сбрасываем состояния
+    });
   }
 
   // НОВЫЙ: Метод для цвета оценки
@@ -1574,6 +1589,7 @@ class _SchemeScreenState extends State<SchemeScreen>
                 _isTaskMode = false;
                 _currentTask = null;
                 _completedSteps = [];
+                _exitTaskMode();
               });
             } else {
               Navigator.pushReplacementNamed(context, '/');
