@@ -56,9 +56,18 @@ class WelcomeScreen extends StatelessWidget {
             fit: BoxFit.contain,
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 12),
         const Text(
           'МНЕМОСХЕМА',
+          style: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        ),
+        const SizedBox(height: 12),
+        const Text(
+          'тренажёр энергетика',
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -137,15 +146,15 @@ class WelcomeScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 12),
               const Text(
-                'МНЕМОСХЕМА',
+                'МНЕМОСХЕМА - тренажёр энергетика',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.blue,
                 ),
               ),
-
               // const Text(
               //   'Выберите режим работы приложения',
               //   style: TextStyle(

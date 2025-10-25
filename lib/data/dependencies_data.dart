@@ -68,8 +68,8 @@ final Map<String, List<String>> groundingDependenciesAND = {
   'vv1': ['vv1'],
   'vv2': ['lr1'],
   'vv3': ['vv3'],
-  'lr1': ['vv2', 'lr1'], // ВВ-2 И ЛР-1
-  'lr2': ['vv2', 'lr1'], // ВВ-2 И ЛР-1
+  'lr1': ['vv2', 'lr1'],
+  'lr2': ['vv2', 'lr1'],
   'mtp1': ['mtp1'],
   'mtp2': ['mtp2'],
   'mtp3': ['mtp3'],
@@ -82,8 +82,8 @@ final Map<String, List<String>> groundingDependenciesAND = {
   'vv5': ['lr7', 'lr6', 'vv5'], // ЛР-7 И ЛР-6 И ВВ-5
   'vv6': ['vv6', 'lr8', 'lr9'], // ВВ-6 И ЛР-8 И ЛР-9
   'vv7': ['vv7', 'lr10', 'lr11'], // ВВ-7 И ЛР-10 И ЛР-11
-  'vl3': ['vv2'],
-  'vl4': ['vv3'],
+  'vl3': ['vv2', 'lr1'],
+  'vl4': ['vv3', 'lr1'],
 };
 
 // Карта для условий "ИЛИ" (специальные случаи)
@@ -185,8 +185,12 @@ final Map<String, List<String>> groundingDependenciesOR = {
     'lr7',
     'vv7',
     'lr10',
-    'lr11'
-  ], // ВВ-6 ИЛИ ЛР-6 ИЛИ ЛР-7 ИЛИ ВВ-7 ИЛИ ЛР-10 ИЛИ ЛР-11
+    'lr11',
+  ],
+  'op6': ['vv2', 'lr2'],
+  'op9': ['vv2', 'lr2'],
+  'op20': ['vv2', 'lr2'],
+  'op56': ['vv2', 'lr2'],
 };
 
 // Специальные случаи
