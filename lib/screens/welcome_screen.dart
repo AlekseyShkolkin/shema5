@@ -93,36 +93,36 @@ class WelcomeScreen extends StatelessWidget {
             Navigator.pushReplacementNamed(context, '/scheme');
           },
         ),
-        const SizedBox(height: 16),
-        _buildModeButton(
-          context,
-          icon: Icons.work,
-          text: 'Работа',
-          color: Colors.grey,
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Режим "Работа" в разработке'),
-                backgroundColor: Colors.orange.shade400,
-              ),
-            );
-          },
-        ),
-        const SizedBox(height: 16),
-        _buildModeButton(
-          context,
-          icon: Icons.iso,
-          text: 'ЭХЗ',
-          color: Colors.grey,
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Режим "ЭХЗ" в разработке'),
-                backgroundColor: Colors.orange.shade400,
-              ),
-            );
-          },
-        ),
+        // const SizedBox(height: 16),
+        // _buildModeButton(
+        //   context,
+        //   icon: Icons.work,
+        //   text: 'Работа',
+        //   color: Colors.grey,
+        //   onPressed: () {
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //       SnackBar(
+        //         content: Text('Режим "Работа" в разработке'),
+        //         backgroundColor: Colors.orange.shade400,
+        //       ),
+        //     );
+        //   },
+        // ),
+        // const SizedBox(height: 16),
+        // _buildModeButton(
+        //   context,
+        //   icon: Icons.iso,
+        //   text: 'ЭХЗ',
+        //   color: Colors.grey,
+        //   onPressed: () {
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //       SnackBar(
+        //         content: Text('Режим "ЭХЗ" в разработке'),
+        //         backgroundColor: Colors.orange.shade400,
+        //       ),
+        //     );
+        //   },
+        // ),
       ],
     );
   }
@@ -162,47 +162,47 @@ class WelcomeScreen extends StatelessWidget {
               //     color: Colors.black87,
               //   ),
               // ),
-              const SizedBox(height: 24),
+              // const SizedBox(height: 24),
 
-              _buildModeButton(
-                context,
-                icon: Icons.school,
-                text: 'Тренажёр',
-                color: Colors.blue,
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/scheme');
-                },
-              ),
-              const SizedBox(height: 12),
-              _buildModeButton(
-                context,
-                icon: Icons.work,
-                text: 'Работа',
-                color: Colors.grey,
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Режим "Работа" в разработке'),
-                      backgroundColor: Colors.orange.shade400,
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 12),
-              _buildModeButton(
-                context,
-                icon: Icons.iso,
-                text: 'ЭХЗ',
-                color: Colors.grey,
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Режим "ЭХЗ" в разработке'),
-                      backgroundColor: Colors.orange.shade400,
-                    ),
-                  );
-                },
-              ),
+              // _buildModeButton(
+              //   context,
+              //   icon: Icons.school,
+              //   text: 'Тренажёр',
+              //   color: Colors.blue,
+              //   onPressed: () {
+              //     Navigator.pushReplacementNamed(context, '/scheme');
+              //   },
+              // ),
+              // const SizedBox(height: 12),
+              // _buildModeButton(
+              //   context,
+              //   icon: Icons.work,
+              //   text: 'Работа',
+              //   color: Colors.grey,
+              //   onPressed: () {
+              //     ScaffoldMessenger.of(context).showSnackBar(
+              //       SnackBar(
+              //         content: Text('Режим "Работа" в разработке'),
+              //         backgroundColor: Colors.orange.shade400,
+              //       ),
+              //     );
+              //   },
+              // ),
+              // const SizedBox(height: 12),
+              // _buildModeButton(
+              //   context,
+              //   icon: Icons.iso,
+              //   text: 'ЭХЗ',
+              //   color: Colors.grey,
+              //   onPressed: () {
+              //     ScaffoldMessenger.of(context).showSnackBar(
+              //       SnackBar(
+              //         content: Text('Режим "ЭХЗ" в разработке'),
+              //         backgroundColor: Colors.orange.shade400,
+              //       ),
+              //     );
+              //   },
+              // ),
             ],
           ),
         ),
