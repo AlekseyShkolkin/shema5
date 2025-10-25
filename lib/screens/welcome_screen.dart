@@ -162,17 +162,17 @@ class WelcomeScreen extends StatelessWidget {
               //     color: Colors.black87,
               //   ),
               // ),
-              // const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
-              // _buildModeButton(
-              //   context,
-              //   icon: Icons.school,
-              //   text: 'Тренажёр',
-              //   color: Colors.blue,
-              //   onPressed: () {
-              //     Navigator.pushReplacementNamed(context, '/scheme');
-              //   },
-              // ),
+              _buildModeButton(
+                context,
+                icon: Icons.school,
+                text: 'Тренажёр',
+                color: Colors.blue,
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/scheme');
+                },
+              ),
               // const SizedBox(height: 12),
               // _buildModeButton(
               //   context,
